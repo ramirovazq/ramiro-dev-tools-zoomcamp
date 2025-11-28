@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 from .models import Todo
+from datetime import date
 
 
 class TodoModelTest(TestCase):
@@ -76,4 +77,42 @@ class TodoViewsTest(TestCase):
 		})
 		self.assertIn(resp.status_code, (301, 302))
 		self.assertEqual(Todo.objects.count(), 1)
+
+	def test_create_with_due_date(self):
+		url = reverse('todo_create')
+		resp = self.client.post(url, {
+			'title': 'Due date task',
+			'description': 'has a date',
+			'due_date': '2025-12-31',  # form expects YYYY-MM-DD
+			'completed': False,
+		})
+		self.assertIn(resp.status_code, (301, 302))
+		self.assertEqual(Todo.objects.count(), 1)
+		todo = Todo.objects.first()
+		self.assertEqual(todo.due_date, date(2025, 12, 31))
+
+	def test_edit_due_date_via_view(self):
+		todo = Todo.objects.create(title='Edit date')
+		url = reverse('todo_edit', args=[todo.pk])
+		resp = self.client.post(url, {
+			'title': 'Edit date',
+			'description': '',
+			'due_date': '2030-01-01',
+			'completed': False,
+		})
+		self.assertIn(resp.status_code, (301, 302))
+		todo.refresh_from_db()
+		self.assertEqual(todo.due_date, date(2030, 1, 1))
+
+	def test_cannot_create_with_past_due_date(self):
+		url = reverse('todo_create')
+		resp = self.client.post(url, {
+			'title': 'Past task',
+			'description': 'past',
+			'due_date': '2000-01-01',
+			'completed': False,
+		})
+		# form invalid -> should render form again (status 200) and not create object
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(Todo.objects.count(), 0)
 
