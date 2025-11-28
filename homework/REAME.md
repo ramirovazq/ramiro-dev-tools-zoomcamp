@@ -63,22 +63,35 @@ Let's now proceed to creating models - the mapping from python objects to a rela
 
 For the TODO app, which models do we need? Implement them.
 
+```
+class Todo(models.Model):
+	title = models.CharField(max_length=200)
+	description = models.TextField(blank=True)
+	due_date = models.DateTimeField(null=True, blank=True)
+	completed = models.BooleanField(default=False)
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		ordering = ['-created_at']
+
+	def __str__(self):
+		return self.title
+```
+
 What's the next step you need to take?
 
-- Run the application
-- Add the models to the admin panel
-- Run migrations
-- Create a makefile
+- Run migrations  <===
 
+```
+$ homework/simple_todo_app && uv run python manage.py makemigrations && uv run python manage.py migrate
+```
 
 ## Question 4. TODO Logic
 
 Let's now ask AI to implement the logic for the TODO app. Where do we put it? 
 
-- `views.py`
-- `urls.py`
-- `admin.py`
-- `tests.py`
+- `views.py` <===
 
 
 ## Question 5. Templates
@@ -87,9 +100,13 @@ Next step is creating the templates. You will need at least two: the base one an
 
 Where do you need to register the directory with the templates? 
 
+```
+Usa TEMPLATES['APP_DIRS'] = True cuando tus plantillas están dentro de cada app en appname/templates/.... 
+```
+
 - `INSTALLED_APPS` in project's `settings.py`
 - `TEMPLATES['DIRS']` in project's `settings.py`
-- `TEMPLATES['APP_DIRS']` in project's `settings.py`
+- `TEMPLATES['APP_DIRS']` in project's `settings.py` <===
 - In the app's `urls.py`
 
 ## Question 6. Tests
