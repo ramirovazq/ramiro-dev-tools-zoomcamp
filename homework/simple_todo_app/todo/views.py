@@ -6,7 +6,16 @@ from .forms import TodoForm
 
 def todo_list(request):
 	todos = Todo.objects.order_by('-created_at')
-	return render(request, 'todo/list.html', {'todos': todos})
+	total = todos.count()
+	completed = todos.filter(completed=True).count()
+	pending = total - completed
+	context = {
+		'todos': todos,
+		'total': total,
+		'completed': completed,
+		'pending': pending,
+	}
+	return render(request, 'todo/list.html', context)
 
 
 def todo_create(request):
