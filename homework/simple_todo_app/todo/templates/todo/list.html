@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p><a class="btn" href="{% url 'todo_create' %}">Create TODO</a></p>
+  <hr />
+  {% for todo in todos %}
+    <div class="todo">
+      <div class="title {% if todo.completed %}completed{% endif %}"><strong>{{ todo.title }}</strong></div>
+      {% if todo.due_date %}<div class="muted">Due: {{ todo.due_date }}</div>{% endif %}
+      {% if todo.description %}<div>{{ todo.description }}</div>{% endif %}
+      <div class="actions">
+        <form class="inline" method="post" action="{% url 'todo_toggle' todo.pk %}">{% csrf_token %}<button class="btn" type="submit">{% if todo.completed %}Unmark{% else %}Mark done{% endif %}</button></form>
+        <a class="btn" href="{% url 'todo_edit' todo.pk %}">Edit</a>
+        <a class="btn btn-danger" href="{% url 'todo_delete' todo.pk %}">Delete</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>No TODOs yet.</p>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple TODO</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      .container { max-width: 800px; margin: 0 auto; }
+      .todo { border: 1px solid #ddd; padding: 12px; margin-bottom: 8px; border-radius: 6px; }
+      .completed { text-decoration: line-through; color: #888; }
+      .actions { margin-top: 8px; }
+      .btn { padding: 6px 10px; border-radius: 4px; background: #1976d2; color: white; text-decoration: none; }
+      .btn-danger { background: #d32f2f; }
+      .muted { color: #666; font-size: 0.9em }
+      form.inline { display: inline; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Simple TODO App</h1>
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

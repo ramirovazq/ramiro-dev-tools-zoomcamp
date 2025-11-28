@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{% if create %}Create TODO{% else %}Edit TODO{% endif %}</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      {{ form.title.label_tag }}<br />
+      {{ form.title }}
+    </div>
+    <div>
+      {{ form.description.label_tag }}<br />
+      {{ form.description }}
+    </div>
+    <div>
+      {{ form.due_date.label_tag }}<br />
+      {{ form.due_date }}
+    </div>
+    <div>
+      {{ form.completed.label_tag }} {{ form.completed }}
+    </div>
+    <div style="margin-top:8px">
+      <button class="btn" type="submit">Save</button>
+      <a href="{% url 'todo_list' %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

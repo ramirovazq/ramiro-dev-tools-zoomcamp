@@ -50,11 +50,12 @@ uv run python manage.py startapp todo
 
 What's the file you need to edit for that?
 
-- `settings.py`
-- `manage.py`
-- `urls.py`
-- `wsgi.py`
+- `settings.py` <===
 
+```
+$ uv run python manage.py migrate
+$ uv run python manage.py runserver
+```
 
 ## Question 3: Django Models
 
