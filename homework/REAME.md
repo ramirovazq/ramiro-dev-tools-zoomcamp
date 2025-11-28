@@ -42,6 +42,12 @@ Now we need to create a project and an app for that.
 
 Follow the instructions from AI to do it. At some point, you will need to include the app you created in the project.
 
+Inside simple_todo_app/
+```
+uv run django-admin startproject config .
+uv run python manage.py startapp todo
+```
+
 What's the file you need to edit for that?
 
 - `settings.py`
