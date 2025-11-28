@@ -42,25 +42,6 @@ A completed TODO item in the list view. The screenshot shows how a marked-as-don
 - Model-level validation prevents saving a `due_date` in the past.
 - Templates live under `todo/templates/` and are discovered via `APP_DIRS = True`.
 
-## Model diagram
-
-A DOT file describing the `Todo` model has been generated and is available at `docs/models.dot`.
-
-If you have Graphviz installed locally you can generate a PNG with:
-
-```bash
-dot -Tpng docs/models.dot -o docs/models.png
-```
-
-Alternatively, the repository includes a `Makefile` target that will attempt to install `django-extensions` and generate the diagram:
-
-```bash
-make model-diagram
-```
-
-If a PNG is present at `docs/models.png` it will be displayed here:
-
-![Model diagram](docs/models.png)
 
 ## Quick start
 
