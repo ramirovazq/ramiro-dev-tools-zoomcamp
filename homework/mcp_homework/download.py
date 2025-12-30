@@ -9,6 +9,7 @@ def download_page(url: str) -> str:
 
 if __name__ == "__main__":
     DOWNLOAD_URL   = "https://datatalks.club"
+    DOWNLOAD_URL   = "https://github.com/alexeygrigorev/minsearch"
     page_content = download_page(DOWNLOAD_URL)
     file_name = DOWNLOAD_URL.split(".")[-2].split("/")[-1]
     print(f"Saving content to {file_name}.md")
