@@ -66,3 +66,11 @@ def test_count_word_in_page(monkeypatch):
 
     # 'world' appears 3 times ('world', 'World-world' -> two occurrences)
     assert download.count_word_in_page("any-url", "world") == 3
+
+
+def test_count_word_in_page_substring(monkeypatch):
+    content = "data database Data-data DATA"
+    monkeypatch.setattr(download, "get_content_md_page", lambda url: content)
+
+    # grep -oi 'data' would match inside 'database' and all case variations -> 5
+    assert download.count_word_in_page("any-url", "data") == 5

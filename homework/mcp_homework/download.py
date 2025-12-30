@@ -37,21 +37,24 @@ def download_page(url: str) -> str:
 
 def count_word_in_page(url: str, word: str) -> int:
     """Return the number of whole-word, case-insensitive occurrences of `word` in the page at `url`.
-
-    Uses regex word boundaries to approximate `grep -owi` behavior.
+    Uses regex to approximate `grep -oi` behavior (substring, case-insensitive).
     """
     page_content = get_content_md_page(url)
-    pattern = rf"\b{re.escape(word)}\b"
+    pattern = rf"{re.escape(word)}"
     matches = re.findall(pattern, page_content, flags=re.IGNORECASE)
     return len(matches)
 
 
 
 if __name__ == "__main__":
-    DOWNLOAD_URL   = "https://datatalks.club"
     DOWNLOAD_URL   = "https://github.com/alexeygrigorev/minsearch"
+    DOWNLOAD_URL   = "https://datatalks.club"
 
     file_saved = download_page(DOWNLOAD_URL)
     print(f"Saving content to:{file_saved}")
     #page_content = get_content_md_page(DOWNLOAD_URL)
     #file_name = DOWNLOAD_URL.split(".")[-2].split("/")[-1]
+
+    word="data"
+    number_of_times = count_word_in_page(DOWNLOAD_URL, word)
+    print(f"Count: {number_of_times} for word '{word}' in page {DOWNLOAD_URL}")
