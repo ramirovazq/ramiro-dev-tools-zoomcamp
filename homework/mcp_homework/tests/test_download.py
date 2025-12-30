@@ -55,3 +55,14 @@ def test_download_page_writes_file(monkeypatch, tmp_path):
         assert p.read_text(encoding="utf-8") == content
     finally:
         os.chdir(cwd)
+
+
+def test_count_word_in_page(monkeypatch):
+    content = "Hello world hello World-world HELLO"
+    monkeypatch.setattr(download, "get_content_md_page", lambda url: content)
+
+    # 'hello' appears 3 times, case-insensitive, whole-word
+    assert download.count_word_in_page("any-url", "hello") == 3
+
+    # 'world' appears 3 times ('world', 'World-world' -> two occurrences)
+    assert download.count_word_in_page("any-url", "world") == 3

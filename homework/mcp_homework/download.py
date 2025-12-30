@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 import requests
+import re
 
 JINA_URL = "https://r.jina.ai/"
 
@@ -33,6 +34,18 @@ def download_page(url: str) -> str:
         f.write(page_content)
 
     return f"{file_name}.md"
+
+def count_word_in_page(url: str, word: str) -> int:
+    """Return the number of whole-word, case-insensitive occurrences of `word` in the page at `url`.
+
+    Uses regex word boundaries to approximate `grep -owi` behavior.
+    """
+    page_content = get_content_md_page(url)
+    pattern = rf"\b{re.escape(word)}\b"
+    matches = re.findall(pattern, page_content, flags=re.IGNORECASE)
+    return len(matches)
+
+
 
 if __name__ == "__main__":
     DOWNLOAD_URL   = "https://datatalks.club"
