@@ -4,7 +4,7 @@ from fastmcp import FastMCP
 from download import count_word_in_page
 
 
-mcp = FastMCP("Demo 🚀")
+mcp = FastMCP("Demo 🚀 main")
 
 
 @mcp.tool
