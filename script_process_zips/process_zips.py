@@ -22,7 +22,13 @@ def process_zip_file(zip_path: Path):
                 continue
             lname = name.lower()
             if lname.endswith('.md') or lname.endswith('.mdx'):
-                matches.append((name, strip_first_component(name)))
+                try:
+                    raw = z.read(name)
+                    content = raw.decode('utf-8')
+                except Exception:
+                    # fall back to bytes representation if decoding fails
+                    content = z.read(name)
+                matches.append({'original': name, 'new': strip_first_component(name), 'content': content})
     return matches
 
 
@@ -45,9 +51,7 @@ def main():
         if not entries:
             print('  (sin archivos .md/.mdx)')
             continue
-        for orig, new in entries:
-            print(f'  {orig} -> {new}')
-
+        print(entries)
 
 if __name__ == '__main__':
     main()

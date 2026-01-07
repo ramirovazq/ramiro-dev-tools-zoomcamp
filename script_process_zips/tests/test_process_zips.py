@@ -24,14 +24,13 @@ def test_process_zip_file_filters_and_strips(tmp_path):
         z.writestr('nested/dir/notes.md', 'n')
 
     matches = process_zips.process_zip_file(zpath)
-
-    # convert to set for order-independent comparison
-    got = set(matches)
+    # convert to set of tuples for order-independent comparison
+    got = {(m['original'], m['new'], m['content']) for m in matches}
     expected = {
-        ('fastmcp-main/README.md', 'README.md'),
-        ('fastmcp-main/docs/Welcome.mdx', 'docs/Welcome.mdx'),
-        ('README.MD', 'README.MD'),
-        ('nested/dir/notes.md', 'dir/notes.md'),
+        ('fastmcp-main/README.md', 'README.md', 'x'),
+        ('fastmcp-main/docs/Welcome.mdx', 'docs/Welcome.mdx', 'y'),
+        ('README.MD', 'README.MD', 'top'),
+        ('nested/dir/notes.md', 'dir/notes.md', 'n'),
     }
 
     assert got == expected
@@ -48,6 +47,6 @@ def test_process_directory_collects_per_archive(tmp_path):
     results = process_zips.process_directory(tmp_path)
 
     assert 'a.zip' in results
-    assert results['a.zip'] == [('pkg/one.md', 'one.md')]
+    assert results['a.zip'] == [{'original': 'pkg/one.md', 'new': 'one.md', 'content': '1'}]
     assert 'b.zip' in results
     assert results['b.zip'] == []
